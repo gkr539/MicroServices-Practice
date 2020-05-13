@@ -26,11 +26,11 @@ public class MovieCatalogController {
 	public List<CatalogItem> getCatalog(@PathVariable("userId") String userId) {
 		ArrayList<CatalogItem> al = new ArrayList<CatalogItem>();
 		
-		UserRating ur = restTemplate.getForObject("http://localhost:8082/ratings/users/" + userId, UserRating.class);
+		UserRating ur = restTemplate.getForObject("http://ratings-data-service/ratings/users/" + userId, UserRating.class);
 	    // get movie info from movie info service
 		
 		for(Rating r : ur.getUserRating()) {
-			Movie m = restTemplate.getForObject("http://localhost:8081/movies/" + r.getMovieId(), Movie.class);
+			Movie m = restTemplate.getForObject("http://movie-info-service/movies/" + r.getMovieId(), Movie.class);
 			al.add(new CatalogItem(m.getName(), "desc", r.getRating()));
 			
 		}
